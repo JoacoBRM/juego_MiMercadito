@@ -1,0 +1,175 @@
+/* ============================================================
+   AccessibleButton — Mi Mercadito
+   Touch targets ≥ 64px. Sin doble clic. Feedback visual claro.
+   ============================================================ */
+
+.btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
+
+  /* Touch target mínimo garantizado */
+  min-height: 72px;
+  min-width: 72px;
+  padding: 1rem 1.75rem;
+
+  border-radius: 14px;
+  border: 3px solid transparent;
+
+  font-family: 'Inter', Arial, sans-serif;
+  font-size: 1.3rem;   /* 26px */
+  font-weight: 700;
+  line-height: 1.2;
+  text-align: center;
+
+  cursor: pointer;
+  transition:
+    background-color 0.15s ease,
+    transform 0.1s ease,
+    box-shadow 0.15s ease;
+
+  /* Evitar text-overflow en botones con texto largo */
+  overflow-wrap: break-word;
+  hyphens: auto;
+}
+
+/* Feedback al presionar — sin animaciones rápidas */
+.btn:active:not(.btn--disabled) {
+  transform: scale(0.97);
+}
+
+/* ---- VARIANTES ---- */
+
+.btn--primary {
+  background-color: #1a5276;
+  color: #ffffff;
+  border-color: #154360;
+  box-shadow: 0 4px 12px rgba(26, 82, 118, 0.35);
+}
+.btn--primary:hover:not(.btn--disabled) {
+  background-color: #154360;
+  box-shadow: 0 6px 18px rgba(26, 82, 118, 0.45);
+}
+
+.btn--secondary {
+  background-color: #ffffff;
+  color: #1a5276;
+  border-color: #1a5276;
+}
+.btn--secondary:hover:not(.btn--disabled) {
+  background-color: #e8f4fd;
+}
+
+.btn--correct {
+  background-color: #1e8449;
+  color: #ffffff;
+  border-color: #196f3d;
+  box-shadow: 0 4px 12px rgba(30, 132, 73, 0.35);
+}
+.btn--correct:hover:not(.btn--disabled) {
+  background-color: #196f3d;
+}
+
+.btn--wrong {
+  background-color: #c0392b;
+  color: #ffffff;
+  border-color: #a93226;
+}
+.btn--wrong:hover:not(.btn--disabled) {
+  background-color: #a93226;
+}
+
+/* Opción de respuesta — estado base neutro */
+.btn--option {
+  background-color: #ffffff;
+  color: #0d1b2a;
+  border-color: #aab7c4;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.08);
+}
+.btn--option:hover:not(.btn--disabled):not(.btn--selected) {
+  background-color: #e8f4fd;
+  border-color: #2e86c1;
+  box-shadow: 0 4px 14px rgba(46, 134, 193, 0.25);
+}
+
+/* Estado seleccionado (borde grueso + fondo azul oscuro) */
+.btn--option.btn--selected {
+  background-color: #1a5276;
+  color: #ffffff;
+  border-color: #0d1b2a;
+  border-width: 4px;
+  box-shadow: 0 0 0 3px #f4d03f;
+}
+
+.btn--ghost {
+  background-color: transparent;
+  color: #1a5276;
+  border-color: transparent;
+  text-decoration: underline;
+  text-underline-offset: 4px;
+}
+.btn--ghost:hover:not(.btn--disabled) {
+  background-color: #e8f4fd;
+  text-decoration: none;
+}
+
+/* ---- TAMAÑOS ---- */
+
+.btn--md {
+  font-size: 1.3rem;
+  padding: 1rem 1.75rem;
+  min-height: 72px;
+}
+
+.btn--lg {
+  font-size: 1.6rem;
+  padding: 1.25rem 2.25rem;
+  min-height: 84px;
+  border-radius: 16px;
+}
+
+.btn--xl {
+  font-size: 1.9rem;
+  padding: 1.5rem 2.75rem;
+  min-height: 96px;
+  border-radius: 18px;
+}
+
+@media (max-width: 480px) {
+  .btn {
+    min-height: 60px;
+    padding: 0.65rem 1.1rem;
+    font-size: 1.1rem;
+    border-radius: 12px;
+  }
+  .btn--md {
+    font-size: 1.1rem;
+    padding: 0.65rem 1.1rem;
+    min-height: 60px;
+  }
+  .btn--lg {
+    font-size: 1.2rem;
+    padding: 0.8rem 1.4rem;
+    min-height: 66px;
+    border-radius: 14px;
+  }
+  .btn--xl {
+    font-size: 1.35rem;
+    padding: 0.8rem 1.4rem;
+    min-height: 70px;
+    border-radius: 14px;
+  }
+}
+
+/* ---- MODIFICADORES ---- */
+
+.btn--fullWidth {
+  width: 100%;
+}
+
+.btn--disabled {
+  opacity: 0.45;
+  cursor: not-allowed;
+  pointer-events: none;
+}

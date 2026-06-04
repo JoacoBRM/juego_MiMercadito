@@ -1,0 +1,93 @@
+.header {
+  color: #ffffff;
+  padding: 1.1rem 1.25rem;
+  position: sticky;
+  top: 0;
+  z-index: 100;
+
+  /* Gradiente rico azul oscuro */
+  background: linear-gradient(135deg, #154360 0%, #1a5276 40%, #2471a3 100%);
+  box-shadow:
+    0 4px 18px rgba(20, 67, 96, 0.35),
+    inset 0 -1px 0 rgba(255,255,255,0.08);
+}
+
+/* Línea decorativa inferior dorada */
+.header::after {
+  content: '';
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  height: 3px;
+  background: linear-gradient(90deg, #f4d03f, #f5b041, #f4d03f);
+}
+
+.inner {
+  max-width: 900px;
+  margin: 0 auto;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1rem;
+}
+
+.titleWrap {
+  text-align: center;
+  flex: 1;
+}
+
+.title {
+  font-size: 1.8rem;
+  font-weight: 800;
+  color: #ffffff;
+  line-height: 1.1;
+  margin: 0;
+  text-shadow: 0 2px 8px rgba(0,0,0,0.2);
+  letter-spacing: 0.01em;
+}
+
+.subtitle {
+  font-size: 1rem;
+  font-weight: 600;
+  color: #f4d03f;
+  margin-top: 0.25rem;
+  letter-spacing: 0.02em;
+}
+
+.homeBtn {
+  flex-shrink: 0;
+  white-space: nowrap;
+  min-width: 110px;
+}
+
+.spacer {
+  flex-shrink: 0;
+  min-width: 110px;
+}
+
+@media (max-width: 480px) {
+  .header {
+    padding: 0.5rem 0.875rem;
+  }
+  .inner {
+    flex-wrap: nowrap;
+    gap: 0.5rem;
+  }
+  .title {
+    font-size: 1.25rem;
+  }
+  .subtitle {
+    font-size: 0.82rem;
+    margin-top: 0.1rem;
+  }
+  .homeBtn {
+    min-width: 68px;
+    min-height: 48px !important;
+    padding: 0.35rem 0.75rem !important;
+    font-size: 0.95rem !important;
+  }
+  .spacer {
+    display: none;
+  }
+}

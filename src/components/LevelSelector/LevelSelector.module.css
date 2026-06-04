@@ -1,0 +1,165 @@
+.main {
+  flex: 1;                        /* ← ocupa todo el alto disponible */
+  max-width: 600px;
+  margin: 0 auto;
+  padding: 1.5rem 1.25rem;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;        /* ← centra verticalmente el contenido */
+  gap: 2rem;
+  width: 100%;
+  animation: slideUp 0.35s ease-out;
+}
+
+@keyframes slideUp {
+  from { opacity: 0; transform: translateY(18px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+
+/* ---- Header (emoji + título + prompt) ---- */
+.header {
+  text-align: center;
+}
+
+.emoji {
+  font-size: 4.5rem;
+  display: block;
+  margin-bottom: 0.5rem;
+  filter: drop-shadow(0 3px 8px rgba(0,0,0,0.12));
+}
+
+.title {
+  font-size: 2rem;
+  font-weight: 800;
+  color: #0d1b2a;
+  margin-bottom: 0.4rem;
+  line-height: 1.2;
+}
+
+.prompt {
+  font-size: 1.25rem;
+  color: #2c3e50;
+}
+
+/* ---- Lista de niveles ---- */
+.levels {
+  display: flex;
+  flex-direction: column;
+  gap: 1.25rem;
+  width: 100%;
+}
+
+/* ---- Botones de nivel ---- */
+.levelBtn {
+  display: flex;
+  align-items: center;
+  gap: 1.25rem;
+  width: 100%;
+  min-height: 100px;
+  padding: 1.4rem 1.75rem;
+  border-radius: 22px;
+  border: 4px solid transparent;
+  cursor: pointer;
+  text-align: left;
+  transition: transform 0.14s ease, box-shadow 0.14s ease;
+  font-family: 'Inter', Arial, sans-serif;
+  position: relative;
+  overflow: hidden;
+}
+
+/* Brillo decorativo */
+.levelBtn::before {
+  content: '';
+  position: absolute;
+  top: -50%;
+  right: -20%;
+  width: 60%;
+  height: 120%;
+  background: radial-gradient(circle, rgba(255,255,255,0.4) 0%, transparent 70%);
+  pointer-events: none;
+}
+
+.levelBtn:hover { transform: translateY(-3px); }
+.levelBtn:active { transform: scale(0.98); }
+
+.easy {
+  background: linear-gradient(145deg, #d5f5e3, #a9dfbf);
+  border-color: #1e8449;
+  color: #0d1b2a;
+  box-shadow: 0 4px 16px rgba(30,132,73,0.2);
+}
+.easy:hover { box-shadow: 0 8px 24px rgba(30,132,73,0.3); }
+
+.medium {
+  background: linear-gradient(145deg, #fef9e7, #f9e79f);
+  border-color: #d4ac0d;
+  color: #0d1b2a;
+  box-shadow: 0 4px 16px rgba(212,172,13,0.2);
+}
+.medium:hover { box-shadow: 0 8px 24px rgba(212,172,13,0.3); }
+
+.levelIcon {
+  font-size: 2.8rem;
+  flex-shrink: 0;
+  filter: drop-shadow(0 2px 4px rgba(0,0,0,0.1));
+}
+
+.levelText {
+  flex: 1;
+  min-width: 0;
+  display: flex;
+  flex-direction: column;
+}
+
+.levelLabel {
+  font-size: 1.6rem;
+  font-weight: 800;
+  display: block;
+}
+
+.levelDesc {
+  font-size: 1.05rem;
+  font-weight: 400;
+  color: #2c3e50;
+  display: block;
+  margin-top: 0.2rem;
+}
+
+/* ================================================
+   RESPONSIVE — móvil
+   ================================================ */
+@media (max-width: 480px) {
+  .main {
+    padding: 1rem;
+    gap: 1.5rem;
+  }
+  .emoji {
+    font-size: 3.5rem;
+  }
+  .title {
+    font-size: 1.55rem;
+  }
+  .prompt {
+    font-size: 1.05rem;
+  }
+  .levels {
+    gap: 1rem;
+  }
+  .levelBtn {
+    min-height: 80px;
+    padding: 1rem 1.25rem;
+    gap: 1rem;
+    border-radius: 18px;
+  }
+  .levelIcon {
+    font-size: 2.2rem;
+  }
+  .levelLabel {
+    font-size: 1.35rem;
+  }
+  .levelDesc {
+    font-size: 0.9rem;
+    margin-top: 0.15rem;
+  }
+}
