@@ -119,7 +119,7 @@
 }
 
 .levelDesc {
-  font-size: 1.05rem;
+  font-size: 1.1rem;
   font-weight: 400;
   color: #2c3e50;
   display: block;
@@ -159,7 +159,7 @@
     font-size: 1.35rem;
   }
   .levelDesc {
-    font-size: 0.9rem;
+    font-size: 1rem;
     margin-top: 0.15rem;
   }
 }

@@ -19,8 +19,17 @@ function shuffle(arr) {
 
 function pickDistractors(exclude, count) {
   const all = Object.values(GAME_EMOJIS)
-  const available = all.filter(e => !exclude.some(x => x.label === e.label))
-  return shuffle(available).slice(0, count)
+  /* Excluir también por emoji: naranja y mandarina comparten 🍊
+     y serían indistinguibles en la cuadrícula */
+  const usedEmojis = new Set(exclude.map(x => x.emoji))
+  const result = []
+  for (const e of shuffle(all)) {
+    if (usedEmojis.has(e.emoji)) continue
+    usedEmojis.add(e.emoji)
+    result.push(e)
+    if (result.length === count) break
+  }
+  return result
 }
 
 export default function ListGame({ onBack }) {
@@ -133,6 +142,8 @@ export default function ListGame({ onBack }) {
       <LevelSelector
         gameTitle="La Lista del Súper"
         gameEmoji="🛒"
+        easyDesc="3 productos, sin tiempo"
+        mediumDesc="4 productos, con tiempo ⏱️"
         onSelect={startGame}
         onBack={onBack}
       />
@@ -171,9 +182,10 @@ export default function ListGame({ onBack }) {
       {/* Timer (medium only) */}
       {level.timerSeconds && subPhase === 'pick' && (
         <TimerBar
+          key={roundIndex}
           totalSeconds={level.timerSeconds}
           onTimeUp={handleTimeUp}
-          running={timerRunning}
+          running={timerRunning && !feedback}
         />
       )}
 

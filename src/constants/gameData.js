@@ -11,6 +11,7 @@ export const WEIGHT_GAME_LEVELS = {
     id: 'easy',
     label: 'Fácil',
     optionCount: 2,
+    timerSeconds: null,
     rounds: [
       {
         correct: E.manzana,
@@ -38,14 +39,17 @@ export const WEIGHT_GAME_LEVELS = {
     id: 'medium',
     label: 'Medio',
     optionCount: 4,
+    timerSeconds: 15,
     rounds: [
       {
         correct: E.manzana,
         options: [E.manzana, E.mandarina, E.mango, E.pera],
       },
       {
+        /* Sin E.mandarina: comparte el emoji 🍊 con la naranja
+           y ambos nombres serían respuestas válidas para la imagen */
         correct: E.naranja,
-        options: [E.mandarina, E.naranja, E.limon, E.uva],
+        options: [E.durazno, E.naranja, E.limon, E.uva],
       },
       {
         correct: E.uva,
@@ -103,6 +107,7 @@ export const COUNT_GAME_LEVELS = {
     label: 'Fácil',
     maxItems: 5,
     distractors: false,
+    timerSeconds: null,
     rounds: [
       { item: E.manzana, count: 3 },
       { item: E.banana,  count: 5 },
@@ -116,6 +121,7 @@ export const COUNT_GAME_LEVELS = {
     label: 'Medio',
     maxItems: 6,
     distractors: true,
+    timerSeconds: 20,
     rounds: [
       { item: E.manzana,   count: 4, distractor: E.naranja,  distractorCount: 2 },
       { item: E.zanahoria, count: 5, distractor: E.brocoli,  distractorCount: 1 },

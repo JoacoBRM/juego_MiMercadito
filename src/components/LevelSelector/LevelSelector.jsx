@@ -1,7 +1,14 @@
 import styles from './LevelSelector.module.css'
 import AccessibleButton from '../AccessibleButton/AccessibleButton.jsx'
 
-export default function LevelSelector({ gameTitle, gameEmoji, onSelect, onBack }) {
+export default function LevelSelector({
+  gameTitle,
+  gameEmoji,
+  onSelect,
+  onBack,
+  easyDesc = 'Sin tiempo, menos opciones',
+  mediumDesc = 'Más opciones, con tiempo',
+}) {
   return (
     <main className={styles.main}>
       <div className={styles.header}>
@@ -19,7 +26,7 @@ export default function LevelSelector({ gameTitle, gameEmoji, onSelect, onBack }
           <span className={styles.levelIcon} aria-hidden="true">😊</span>
           <span className={styles.levelText}>
             <span className={styles.levelLabel}>Fácil</span>
-            <span className={styles.levelDesc}>Sin tiempo, menos opciones</span>
+            <span className={styles.levelDesc}>{easyDesc}</span>
           </span>
         </button>
 
@@ -31,7 +38,7 @@ export default function LevelSelector({ gameTitle, gameEmoji, onSelect, onBack }
           <span className={styles.levelIcon} aria-hidden="true">🤔</span>
           <span className={styles.levelText}>
             <span className={styles.levelLabel}>Medio</span>
-            <span className={styles.levelDesc}>Más opciones, con tiempo</span>
+            <span className={styles.levelDesc}>{mediumDesc}</span>
           </span>
         </button>
       </div>

@@ -4,11 +4,16 @@ import styles from './TimerBar.module.css'
 /**
  * Barra de progreso de tiempo descendente.
  * Cambia de color: verde → naranja → rojo.
- * Sin números parpadeantes — solo la barra visual.
+ * Sin números parpadeantes — barra visual + segundos en grande.
  */
 export default function TimerBar({ totalSeconds, onTimeUp, running }) {
   const [remaining, setRemaining] = useState(totalSeconds)
   const intervalRef = useRef(null)
+  const onTimeUpRef = useRef(onTimeUp)
+
+  useEffect(() => {
+    onTimeUpRef.current = onTimeUp
+  }, [onTimeUp])
 
   useEffect(() => {
     setRemaining(totalSeconds)
@@ -24,7 +29,7 @@ export default function TimerBar({ totalSeconds, onTimeUp, running }) {
       setRemaining(prev => {
         if (prev <= 1) {
           clearInterval(intervalRef.current)
-          onTimeUp?.()
+          onTimeUpRef.current?.()
           return 0
         }
         return prev - 1
@@ -32,7 +37,7 @@ export default function TimerBar({ totalSeconds, onTimeUp, running }) {
     }, 1000)
 
     return () => clearInterval(intervalRef.current)
-  }, [running, onTimeUp])
+  }, [running])
 
   const pct = (remaining / totalSeconds) * 100
 
@@ -43,13 +48,16 @@ export default function TimerBar({ totalSeconds, onTimeUp, running }) {
 
   return (
     <div className={styles.wrap} role="timer" aria-label={`${remaining} segundos restantes`}>
+      <span className={styles.icon} aria-hidden="true">⏱️</span>
       <div className={styles.track}>
         <div
           className={`${styles.bar} ${colorClass}`}
           style={{ width: `${pct}%` }}
         />
       </div>
-      <span className={styles.label}>{remaining}s</span>
+      <span className={`${styles.label} ${colorClass === styles.critical ? styles.labelCritical : ''}`}>
+        {remaining}s
+      </span>
     </div>
   )
 }

@@ -367,9 +367,17 @@
   }
 }
 
-/* Móvil muy pequeño (<380px): 2 columnas si no caben 3 */
+/* Móvil muy pequeño (<360px): mantener 3 columnas (2 columnas
+   genera 5 filas con 9 items y el botón Confirmar queda fuera
+   de pantalla); solo compactar los items */
 @media (max-width: 360px) {
-  .cartGrid {
-    grid-template-columns: repeat(2, 1fr);
+  .cartEmoji {
+    font-size: 1.7rem;
+  }
+  .cartLabel {
+    font-size: 0.75rem;
+  }
+  .cartItem {
+    padding: 0.5rem 0.25rem;
   }
 }

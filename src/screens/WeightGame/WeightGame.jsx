@@ -3,6 +3,7 @@ import { WEIGHT_GAME_LEVELS } from '../../constants/gameData.js'
 import LevelSelector from '../../components/LevelSelector/LevelSelector.jsx'
 import FeedbackOverlay from '../../components/FeedbackOverlay/FeedbackOverlay.jsx'
 import GameResult from '../../components/GameResult/GameResult.jsx'
+import TimerBar from '../../components/TimerBar/TimerBar.jsx'
 import AccessibleButton from '../../components/AccessibleButton/AccessibleButton.jsx'
 import styles from './WeightGame.module.css'
 
@@ -39,6 +40,18 @@ export default function WeightGame({ onBack }) {
     if (phase === 'play') document.activeElement?.blur()
   }, [roundIndex, phase])
 
+  const goNext = useCallback(() => {
+    setFeedback(null)
+    setSelected(null)
+    const next = roundIndex + 1
+    if (next >= level.rounds.length) {
+      setPhase('end')
+    } else {
+      setRound(next)
+      setShuffled(shuffle(level.rounds[next].options))
+    }
+  }, [level, roundIndex])
+
   const handleAnswer = useCallback((option) => {
     if (feedback) return
     const round = level.rounds[roundIndex]
@@ -48,24 +61,22 @@ export default function WeightGame({ onBack }) {
     setFeedback(isCorrect ? 'correct' : 'wrong')
     if (isCorrect) setScore(s => s + 1)
 
-    setTimeout(() => {
-      setFeedback(null)
-      setSelected(null)
-      const next = roundIndex + 1
-      if (next >= level.rounds.length) {
-        setPhase('end')
-      } else {
-        setRound(next)
-        setShuffled(shuffle(level.rounds[next].options))
-      }
-    }, 1300)
-  }, [feedback, level, roundIndex])
+    setTimeout(goNext, 1300)
+  }, [feedback, level, roundIndex, goNext])
+
+  const handleTimeUp = useCallback(() => {
+    if (feedback) return
+    setFeedback('wrong')
+    setTimeout(goNext, 1300)
+  }, [feedback, goNext])
 
   if (phase === 'level') {
     return (
       <LevelSelector
         gameTitle="¿Cómo se llama?"
         gameEmoji="🏷️"
+        easyDesc="2 opciones, sin tiempo"
+        mediumDesc="4 opciones, con tiempo ⏱️"
         onSelect={startGame}
         onBack={onBack}
       />
@@ -98,6 +109,15 @@ export default function WeightGame({ onBack }) {
         </div>
         <span className={styles.progressLabel}>{roundIndex + 1} / {total}</span>
       </div>
+
+      {level.timerSeconds && (
+        <TimerBar
+          key={roundIndex}
+          totalSeconds={level.timerSeconds}
+          onTimeUp={handleTimeUp}
+          running={!feedback}
+        />
+      )}
 
       <p className={styles.instruction}>¿Cómo se llama esto?</p>
 

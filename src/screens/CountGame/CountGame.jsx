@@ -3,6 +3,7 @@ import { COUNT_GAME_LEVELS } from '../../constants/gameData.js'
 import LevelSelector from '../../components/LevelSelector/LevelSelector.jsx'
 import FeedbackOverlay from '../../components/FeedbackOverlay/FeedbackOverlay.jsx'
 import GameResult from '../../components/GameResult/GameResult.jsx'
+import TimerBar from '../../components/TimerBar/TimerBar.jsx'
 import AccessibleButton from '../../components/AccessibleButton/AccessibleButton.jsx'
 import styles from './CountGame.module.css'
 
@@ -80,6 +81,16 @@ export default function CountGame({ onBack }) {
     if (phase === 'play') document.activeElement?.blur()
   }, [roundIndex, phase])
 
+  const goNext = useCallback(() => {
+    const next = roundIndex + 1
+    if (next >= level.rounds.length) {
+      setPhase('end')
+    } else {
+      setRound(next)
+      prepareRound(level, next)
+    }
+  }, [level, roundIndex])
+
   const handleAnswer = useCallback((num) => {
     if (feedback) return
     const round = level.rounds[roundIndex]
@@ -89,22 +100,22 @@ export default function CountGame({ onBack }) {
     setFeedback(isCorrect ? 'correct' : 'wrong')
     if (isCorrect) setScore(s => s + 1)
 
-    setTimeout(() => {
-      const next = roundIndex + 1
-      if (next >= level.rounds.length) {
-        setPhase('end')
-      } else {
-        setRound(next)
-        prepareRound(level, next)
-      }
-    }, 1500)
-  }, [feedback, level, roundIndex])
+    setTimeout(goNext, 1500)
+  }, [feedback, level, roundIndex, goNext])
+
+  const handleTimeUp = useCallback(() => {
+    if (feedback) return
+    setFeedback('wrong')
+    setTimeout(goNext, 1500)
+  }, [feedback, goNext])
 
   if (phase === 'level') {
     return (
       <LevelSelector
         gameTitle="Las Cuentas Claras"
         gameEmoji="🧮"
+        easyDesc="Pocos productos, sin tiempo"
+        mediumDesc="Más productos, con tiempo ⏱️"
         onSelect={startGame}
         onBack={onBack}
       />
@@ -138,6 +149,16 @@ export default function CountGame({ onBack }) {
         </div>
         <span className={styles.progressLabel}>{roundIndex + 1} / {total}</span>
       </div>
+
+      {/* Timer (medium only) */}
+      {level.timerSeconds && (
+        <TimerBar
+          key={roundIndex}
+          totalSeconds={level.timerSeconds}
+          onTimeUp={handleTimeUp}
+          running={!feedback}
+        />
+      )}
 
       {/* Question */}
       <p className={styles.question}>

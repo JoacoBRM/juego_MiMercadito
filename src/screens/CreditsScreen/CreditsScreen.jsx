@@ -26,7 +26,7 @@ export default function CreditsScreen({ onBack }) {
         ))}
       </ul>
 
-      <p className={styles.year}>2025 — Proyecto académico</p>
+      <p className={styles.year}>{new Date().getFullYear()} — Proyecto académico</p>
 
       <AccessibleButton variant="ghost" size="md" onClick={onBack} ariaLabel="Volver al menú principal">
         ← Volver al menú
