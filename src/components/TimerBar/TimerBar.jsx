@@ -26,18 +26,20 @@ export default function TimerBar({ totalSeconds, onTimeUp, running }) {
     }
 
     intervalRef.current = setInterval(() => {
-      setRemaining(prev => {
-        if (prev <= 1) {
-          clearInterval(intervalRef.current)
-          onTimeUpRef.current?.()
-          return 0
-        }
-        return prev - 1
-      })
+      setRemaining(prev => Math.max(prev - 1, 0))
     }, 1000)
 
     return () => clearInterval(intervalRef.current)
   }, [running])
+
+  /* Avisar fuera del updater de estado: llamar onTimeUp dentro de
+     setRemaining provoca un setState del padre durante el render */
+  useEffect(() => {
+    if (remaining === 0 && running) {
+      clearInterval(intervalRef.current)
+      onTimeUpRef.current?.()
+    }
+  }, [remaining, running])
 
   const pct = (remaining / totalSeconds) * 100
 

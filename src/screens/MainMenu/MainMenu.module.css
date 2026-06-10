@@ -64,17 +64,6 @@
   }
 }
 
-@media (min-width: 920px) {
-  .grid {
-    grid-template-columns: repeat(3, 1fr);
-  }
-  .gridItem:last-child:nth-child(odd) {
-    grid-column: unset;
-    max-width: unset;
-    margin: unset;
-  }
-}
-
 /* ---- Botón de créditos al pie ---- */
 .creditsRow {
   margin-top: 2rem;

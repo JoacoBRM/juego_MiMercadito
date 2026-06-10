@@ -4,6 +4,13 @@ import AccessibleButton from '../../components/AccessibleButton/AccessibleButton
 
 const MODES = [
   {
+    id: 'math',
+    emoji: '💰',
+    title: 'Problemas del Mercado',
+    description: 'Resuelve problemas de compras y vuelto, como en la tienda.',
+    color: '#e67e22',
+  },
+  {
     id: 'list',
     emoji: '🛒',
     title: 'La Lista del Súper',
@@ -23,13 +30,6 @@ const MODES = [
     title: 'Las Cuentas Claras',
     description: 'Cuenta cuántos productos iguales hay en la pantalla.',
     color: '#8b5cf6',
-  },
-  {
-    id: 'math',
-    emoji: '💰',
-    title: 'Problemas del Mercado',
-    description: 'Resuelve problemas de compras y vuelto, como en la tienda.',
-    color: '#e67e22',
   },
 ]
 
