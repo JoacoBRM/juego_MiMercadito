@@ -4,6 +4,7 @@ import MainMenu       from './screens/MainMenu/MainMenu.jsx'
 import WeightGame     from './screens/WeightGame/WeightGame.jsx'
 import ListGame       from './screens/ListGame/ListGame.jsx'
 import CountGame      from './screens/CountGame/CountGame.jsx'
+import MathGame       from './screens/MathGame/MathGame.jsx'
 import CreditsScreen  from './screens/CreditsScreen/CreditsScreen.jsx'
 
 const SCREENS = {
@@ -12,6 +13,7 @@ const SCREENS = {
   weight:  'weight',
   list:    'list',
   count:   'count',
+  math:    'math',
   credits: 'credits',
 }
 
@@ -27,6 +29,7 @@ export default function App() {
       {screen === SCREENS.weight  && <WeightGame onBack={goHome} />}
       {screen === SCREENS.list    && <ListGame   onBack={goHome} />}
       {screen === SCREENS.count   && <CountGame  onBack={goHome} />}
+      {screen === SCREENS.math    && <MathGame   onBack={goHome} />}
       {screen === SCREENS.credits && <CreditsScreen onBack={goHome} />}
     </>
   )

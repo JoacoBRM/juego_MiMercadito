@@ -1,5 +1,5 @@
 import { useState, useCallback, useMemo, useEffect } from 'react'
-import { COUNT_GAME_LEVELS } from '../../constants/gameData.js'
+import { getCountLevel } from '../../constants/gameData.js'
 import LevelSelector from '../../components/LevelSelector/LevelSelector.jsx'
 import FeedbackOverlay from '../../components/FeedbackOverlay/FeedbackOverlay.jsx'
 import GameResult from '../../components/GameResult/GameResult.jsx'
@@ -59,7 +59,7 @@ export default function CountGame({ onBack }) {
   const [numOptions, setNumOptions] = useState([])
 
   const startGame = useCallback((levelId) => {
-    const lvl = COUNT_GAME_LEVELS[levelId]
+    const lvl = getCountLevel(levelId)
     setLevel(lvl)
     setRound(0)
     setScore(0)
@@ -162,7 +162,8 @@ export default function CountGame({ onBack }) {
 
       {/* Question */}
       <p className={styles.question}>
-        ¿Cuántas <span className={styles.targetName}>{round.item.emoji} {round.item.label}</span> hay?
+        {/* "unidades de X" evita errores de género con productos aleatorios */}
+        ¿Cuántas unidades de <span className={styles.targetName}>{round.item.emoji} {round.item.label}</span> hay?
       </p>
 
       {/* Scattered items board */}

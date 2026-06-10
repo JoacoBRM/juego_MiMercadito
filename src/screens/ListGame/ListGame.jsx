@@ -1,5 +1,5 @@
 import { useState, useCallback, useEffect, useRef } from 'react'
-import { LIST_GAME_LEVELS } from '../../constants/gameData.js'
+import { getListLevel } from '../../constants/gameData.js'
 import { GAME_EMOJIS } from '../../constants/theme.js'
 import LevelSelector from '../../components/LevelSelector/LevelSelector.jsx'
 import FeedbackOverlay from '../../components/FeedbackOverlay/FeedbackOverlay.jsx'
@@ -48,7 +48,7 @@ export default function ListGame({ onBack }) {
   const timerRef = useRef(null)
 
   const startGame = useCallback((levelId) => {
-    const lvl = LIST_GAME_LEVELS[levelId]
+    const lvl = getListLevel(levelId)
     setLevel(lvl)
     setRound(0)
     setScore(0)

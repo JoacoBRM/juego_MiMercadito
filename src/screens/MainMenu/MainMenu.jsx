@@ -24,6 +24,13 @@ const MODES = [
     description: 'Cuenta cuántos productos iguales hay en la pantalla.',
     color: '#8b5cf6',
   },
+  {
+    id: 'math',
+    emoji: '💰',
+    title: 'Problemas del Mercado',
+    description: 'Resuelve problemas de compras y vuelto, como en la tienda.',
+    color: '#e67e22',
+  },
 ]
 
 export default function MainMenu({ onSelectMode, onCredits }) {

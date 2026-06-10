@@ -19,7 +19,7 @@ Es ideal para estimular las habilidades cognitivas mientras los usuarios simulan
 
 ## 🎮 Minijuegos Disponibles
 
-El proyecto cuenta con tres modos de juego principales, cada uno con distintos niveles de dificultad (Fácil y Medio):
+El proyecto cuenta con cuatro modos de juego principales, cada uno con distintos niveles de dificultad (Fácil y Medio). Las rondas se generan al azar en cada partida, así que nunca se repite el mismo juego dos veces:
 
 ### 1. 📝 La Lista del Súper (Memoria Secuencial)
 ¡Pon a prueba tu memoria! Se te mostrará una lista de compras por unos segundos. Cuando desaparezca, tendrás que recordar y seleccionar los productos correctos entre varias opciones, ¡y en el tiempo límite!
@@ -29,6 +29,9 @@ Aparecerá el nombre de un producto y tendrás que seleccionar la imagen correct
 
 ### 3. 🔢 Las Cuentas Claras (Conteo)
 ¿Cuántas manzanas hay? Observa los productos en pantalla y cuenta la cantidad exacta del ítem que se te pide, ignorando los distractores. Un excelente ejercicio de concentración y conteo.
+
+### 4. 💰 Problemas del Mercado (Problemas Matemáticos)
+Resuelve problemas de compras con dinero, como en la vida real: "Compras 1 dólar de huevos. Las manzanas cuestan 50 centavos cada una y llevas 10. ¿Cuánto debes pagar en total?". Incluye sumas, precios por unidad y cálculo del vuelto.
 
 ---
 

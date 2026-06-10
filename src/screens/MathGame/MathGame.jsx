@@ -1,38 +1,27 @@
 import { useState, useCallback, useEffect } from 'react'
-import { getWeightLevel } from '../../constants/gameData.js'
+import { getMathLevel, formatMoney } from '../../constants/gameData.js'
 import LevelSelector from '../../components/LevelSelector/LevelSelector.jsx'
 import FeedbackOverlay from '../../components/FeedbackOverlay/FeedbackOverlay.jsx'
 import GameResult from '../../components/GameResult/GameResult.jsx'
 import TimerBar from '../../components/TimerBar/TimerBar.jsx'
 import AccessibleButton from '../../components/AccessibleButton/AccessibleButton.jsx'
-import styles from './WeightGame.module.css'
+import styles from './MathGame.module.css'
 
-function shuffle(arr) {
-  const a = [...arr]
-  for (let i = a.length - 1; i > 0; i--) {
-    const j = Math.floor(Math.random() * (i + 1));
-    [a[i], a[j]] = [a[j], a[i]]
-  }
-  return a
-}
-
-export default function WeightGame({ onBack }) {
-  const [phase, setPhase]           = useState('level')
-  const [level, setLevel]           = useState(null)
-  const [roundIndex, setRound]      = useState(0)
-  const [score, setScore]           = useState(0)
-  const [feedback, setFeedback]     = useState(null)
-  const [selected, setSelected]     = useState(null)
-  const [shuffledOpts, setShuffled] = useState([])
+export default function MathGame({ onBack }) {
+  const [phase, setPhase]       = useState('level')
+  const [level, setLevel]       = useState(null)
+  const [roundIndex, setRound]  = useState(0)
+  const [score, setScore]       = useState(0)
+  const [feedback, setFeedback] = useState(null)
+  const [selected, setSelected] = useState(null)
 
   const startGame = useCallback((levelId) => {
-    const lvl = getWeightLevel(levelId)
+    const lvl = getMathLevel(levelId)
     setLevel(lvl)
     setRound(0)
     setScore(0)
-    setSelected(null)
     setFeedback(null)
-    setShuffled(shuffle(lvl.rounds[0].options))
+    setSelected(null)
     setPhase('play')
   }, [])
 
@@ -48,35 +37,36 @@ export default function WeightGame({ onBack }) {
       setPhase('end')
     } else {
       setRound(next)
-      setShuffled(shuffle(level.rounds[next].options))
     }
   }, [level, roundIndex])
 
-  const handleAnswer = useCallback((option) => {
+  const handleAnswer = useCallback((cents) => {
     if (feedback) return
     const round = level.rounds[roundIndex]
-    const isCorrect = option.label === round.correct.label
+    const isCorrect = cents === round.answer
 
-    setSelected(option.label)
+    setSelected(cents)
     setFeedback(isCorrect ? 'correct' : 'wrong')
     if (isCorrect) setScore(s => s + 1)
 
-    setTimeout(goNext, 1300)
+    /* Un poco más de tiempo que en otros modos para ver
+       cuál era la respuesta correcta */
+    setTimeout(goNext, isCorrect ? 1500 : 2500)
   }, [feedback, level, roundIndex, goNext])
 
   const handleTimeUp = useCallback(() => {
     if (feedback) return
     setFeedback('wrong')
-    setTimeout(goNext, 1300)
+    setTimeout(goNext, 2500)
   }, [feedback, goNext])
 
   if (phase === 'level') {
     return (
       <LevelSelector
-        gameTitle="¿Cómo se llama?"
-        gameEmoji="🏷️"
-        easyDesc="2 opciones, sin tiempo"
-        mediumDesc="4 opciones, con tiempo ⏱️"
+        gameTitle="Problemas del Mercado"
+        gameEmoji="💰"
+        easyDesc="Cuentas sencillas, sin tiempo"
+        mediumDesc="Cuentas con vuelto, con tiempo ⏱️"
         onSelect={startGame}
         onBack={onBack}
       />
@@ -97,19 +87,21 @@ export default function WeightGame({ onBack }) {
 
   const round = level.rounds[roundIndex]
   const total = level.rounds.length
-  const progressPct = ((roundIndex) / total) * 100
+  const progressPct = (roundIndex / total) * 100
 
   return (
     <main className={styles.game}>
       {feedback && <FeedbackOverlay correct={feedback === 'correct'} />}
 
-      <div className={styles.progressWrap} aria-label={`Pregunta ${roundIndex + 1} de ${total}`}>
+      {/* Progress */}
+      <div className={styles.progressWrap}>
         <div className={styles.progressTrack}>
           <div className={styles.progressFill} style={{ width: `${progressPct}%` }} />
         </div>
         <span className={styles.progressLabel}>{roundIndex + 1} / {total}</span>
       </div>
 
+      {/* Timer (medium only) */}
       {level.timerSeconds && (
         <TimerBar
           key={roundIndex}
@@ -119,39 +111,37 @@ export default function WeightGame({ onBack }) {
         />
       )}
 
-      <p className={styles.instruction}>¿Cómo se llama esto?</p>
-
-      <div className={styles.imageWrap} aria-label={`Imagen de ${round.correct.label}`}>
-        <span className={styles.mainEmoji} role="img" aria-label={round.correct.label}>
-          {round.correct.emoji}
-        </span>
+      {/* Problema */}
+      <div className={styles.problemCard}>
+        <div className={styles.problemEmojis} aria-hidden="true">
+          {round.emojis.join(' ')}
+        </div>
+        <p className={styles.problemText}>{round.text}</p>
       </div>
 
-      <div
-        className={`${styles.options} ${styles[`options--${shuffledOpts.length}`]}`}
-        role="group"
-        aria-label="Opciones de respuesta"
-      >
-        {shuffledOpts.map((opt) => {
-          const isSelected = selected === opt.label
-          const isCorrect  = opt.label === round.correct.label
+      {/* Opciones de dinero */}
+      <div className={styles.options} role="group" aria-label="Opciones de respuesta">
+        {round.options.map((cents) => {
+          const isSel = selected === cents
+          const isCorrect = cents === round.answer
 
           let variant = 'option'
-          if (feedback && isSelected && isCorrect)  variant = 'correct'
-          if (feedback && isSelected && !isCorrect) variant = 'wrong'
+          if (feedback && isSel && isCorrect)  variant = 'correct'
+          if (feedback && isSel && !isCorrect) variant = 'wrong'
+          /* Al fallar (o agotarse el tiempo) se muestra cuál era la correcta */
+          if (feedback === 'wrong' && isCorrect) variant = 'correct'
 
           return (
             <AccessibleButton
-              key={opt.label}
+              key={cents}
               variant={variant}
-              size="lg"
-              selected={isSelected && !feedback}
-              onClick={() => handleAnswer(opt)}
+              size="xl"
+              selected={isSel && !feedback}
+              onClick={() => handleAnswer(cents)}
               disabled={!!feedback}
-              fullWidth
-              ariaLabel={`Respuesta: ${opt.label}`}
+              ariaLabel={`Respuesta: ${formatMoney(cents)}`}
             >
-              {opt.label}
+              {formatMoney(cents)}
             </AccessibleButton>
           )
         })}
