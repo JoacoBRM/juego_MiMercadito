@@ -102,16 +102,19 @@
   box-shadow: 0 0 0 3px #f4d03f;
 }
 
+/* Acciones de navegación (volver, salir, créditos):
+   botón real pero más liviano que los de respuesta */
 .btn--ghost {
-  background-color: transparent;
+  background-color: #ffffff;
   color: #1a5276;
-  border-color: transparent;
-  text-decoration: underline;
-  text-underline-offset: 4px;
+  border-color: #1a5276;
+  border-width: 2px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
 }
 .btn--ghost:hover:not(.btn--disabled) {
   background-color: #e8f4fd;
-  text-decoration: none;
+  border-color: #154360;
+  box-shadow: 0 4px 12px rgba(26, 82, 118, 0.25);
 }
 
 /* ---- TAMAÑOS ---- */
